@@ -1,6 +1,6 @@
 package nowcoder.linkedlist;
 
-public class BM15_deleteDuplicates {
+public class BM15_DeleteDuplicatesI {
     // 遍历删除
     public ListNode deleteDuplicates(ListNode head) {
         // 1. 空链表直接返回
