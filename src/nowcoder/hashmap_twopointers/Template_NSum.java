@@ -99,6 +99,25 @@ public class Template_NSum {
     }
 
     // ---------- fourSum -----------
+
+    public ArrayList<ArrayList<Integer>> fourSum(int[] nums, int target) {
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        Arrays.sort(nums); // 数组进行排序
+        for (int i = 0; i < nums.length; i++) { // 穷举 fourSum 的第一个数
+            // 对 target - nums[i] 计算 threeSum
+            ArrayList<ArrayList<Integer>> tuples = threeSum(nums, i + 1, target - nums[i]);
+            for (ArrayList<Integer> tuple : tuples) {
+                // 如果存在满足条件的三元组，再加上 nums[i] 就是结果四元组
+                tuple.add(0, nums[i]);
+                ans.add(tuple);
+            }
+            // fourSum 的第一个数不能重复
+            while (i < nums.length - 1 && nums[i] == nums[i + 1]) i++;
+        }
+        return ans;
+    }
+
+    // 从 nums[start] 开始，计算有序数组 nums 中所有和为 target 的三元组
     public ArrayList<ArrayList<Integer>> threeSum(int[] nums, int start, int target) {
         ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
         // Arrays.sort(nums);
@@ -118,16 +137,40 @@ public class Template_NSum {
         return ans;
     }
 
-    public ArrayList<ArrayList<Integer>> fourSum(int[] nums, int target) {
+
+
+    // ------------ nSum -----------------
+    // 调用该函数之前，一定要对 nums 进行排序
+    public ArrayList<ArrayList<Integer>> nSum(int[] nums, int n, int start, int target) {
         ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
-        Arrays.sort(nums);
-        for (int i = 0; i < nums.length; i++) {
-            ArrayList<ArrayList<Integer>> tuples = threeSum(nums, i + 1, target - nums[i]);
-            for (ArrayList<Integer> tuple : tuples) {
-                tuple.add(0, nums[i]);
-                ans.add(tuple);
+        if (n < 2 || nums.length < n) // n 不应该小于 2，并且输入数组内的元素不应小于 n
+            return ans;
+        if (n == 2) { // 2Sum 是 base case
+            int lo = start, hi = nums.length - 1;
+            while (lo < hi) {
+                int left = nums[lo], right = nums[hi];
+                int sum = left + right;
+                if (sum == target) {
+                    ans.add(new ArrayList<>(Arrays.asList(left, right)));
+                    while (lo < hi && nums[lo] == left) lo++;
+                    while (lo < hi && nums[hi] == right) hi--;
+                } else if (sum < target) {
+                    while (lo < hi && nums[lo] == left) lo++;
+                } else if (sum > target) {
+                    while (lo < hi && nums[hi] == right) hi--;
+                }
             }
-            while (i < nums.length - 1 && nums[i] == nums[i + 1]) i++;
+        } else {
+            // n > 2 时，递归计算 (n-1)Sum 的结果
+            for (int i = 0; i < nums.length; i++) {
+                ArrayList<ArrayList<Integer>> tuples = nSum(nums, n - 1, i + 1, target - nums[i]);
+                for (ArrayList<Integer> tuple : tuples) {
+                    // (n-1)Sum 加上 nums[i] 就是 nSum
+                    tuple.add(0, nums[i]);
+                    ans.add(tuple);
+                }
+                while (i < nums.length - 1 && nums[i] == nums[i + 1]) i++;
+            }
         }
         return ans;
     }
