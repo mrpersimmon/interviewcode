@@ -52,42 +52,46 @@ public class Template_NSum {
 
     // ------------ threeSum ----------
 
-    public ArrayList<ArrayList<Integer>> twoSum(ArrayList<Integer> nums, int start, int target) {
+    // 返回 nums 中从 start 开始的满足 target 的二元组。
+    public ArrayList<ArrayList<Integer>> twoSum(int[] nums, int start, int target) {
         // 解决的重点在于：当 sum == target 时，要跳过所有重复的元素。并且所有的分支都应该跳过重复的元素。
         ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
-        Collections.sort(nums); // 排序
-        int lo = start, hi = nums.size() - 1; // 左右指针
+        // Arrays.sort(nums); // 排序，threeSum 传过来之前已经排过序了
+        int lo = start, hi = nums.length - 1; // 左右指针
         while (lo < hi) {
-            int left = nums.get(lo), right = nums.get(hi);
+            int left = nums[lo], right = nums[hi];
             int sum = left + right;
             if (sum == target) {
                 ans.add(new ArrayList<>(Arrays.asList(left, right)));
-                while (lo < hi && nums.get(lo) == left) // 左指针去重
+                while (lo < hi && nums[lo] == left) // 左指针去重
                     lo++;
-                while (lo < hi && nums.get(hi) == right) // 右指针去重
+                while (lo < hi && nums[hi] == right) // 右指针去重
                     hi--;
             } else if (sum < target) {
-                while (lo < hi && nums.get(lo) == left)
+                while (lo < hi && nums[lo] == left)
                     lo++;
             } else if (sum > target) {
-                while (lo < hi && nums.get(hi) == right)
+                while (lo < hi && nums[hi] == right)
                     hi--;
             }
         }
         return ans;
     }
 
-    public ArrayList<ArrayList<Integer>> threeSum(ArrayList<Integer> nums, int target) {
+    public ArrayList<ArrayList<Integer>> threeSum(int[] nums, int target) {
         ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
-        Collections.sort(nums);
+        Arrays.sort(nums);
         // 确定第一个数字之后，就可以使用 twoSum 计算 target - nums[i] 了
-        for (int i = 0; i < nums.size(); i++) {
-            ArrayList<ArrayList<Integer>> tuples = twoSum(nums, i + 1, target - nums.get(i));
+        for (int i = 0; i < nums.length; i++) { // 穷举 threeSum 的第一个数
+            // 对 target - nums[i] 计算 twoSum
+            ArrayList<ArrayList<Integer>> tuples = twoSum(nums, i + 1, target - nums[i]);
+            // 如果存在满足条件的二元组，再加上 nums[i] 就是结果三元组
             for (ArrayList<Integer> tuple : tuples) {
-                tuple.add(0, nums.get(i));
+                tuple.add(0, nums[i]);
                 ans.add(tuple);
             }
-            while (i < nums.size() - 1 && nums.get(i) == nums.get(i + 1))
+            // 跳过第一个数字重复的情况，否则会出现重复结果
+            while (i < nums.length - 1 && nums[i] == nums[i + 1])
                 i++;
         }
         return ans;
