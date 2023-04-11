@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+// 三数之和：https://www.nowcoder.com/practice/345e2ed5f81d4017bbb8cc6055b0b711
 public class Template_NSum {
     // 目标：返回「一对儿」 nums 中能够凑出 target 的两个元素的值。
     // 比如输入 nums = [1,3,5,6], target = 9，那么算法返回两个元素 [3,6]。
@@ -93,6 +94,40 @@ public class Template_NSum {
             // 跳过第一个数字重复的情况，否则会出现重复结果
             while (i < nums.length - 1 && nums[i] == nums[i + 1])
                 i++;
+        }
+        return ans;
+    }
+
+    // ---------- fourSum -----------
+    public ArrayList<ArrayList<Integer>> threeSum(int[] nums, int start, int target) {
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        // Arrays.sort(nums);
+        // 确定第一个数字之后，就可以使用 twoSum 计算 target - nums[i] 了
+        for (int i = start; i < nums.length; i++) { // 穷举 threeSum 的第一个数
+            // 对 target - nums[i] 计算 twoSum
+            ArrayList<ArrayList<Integer>> tuples = twoSum(nums, i + 1, target - nums[i]);
+            // 如果存在满足条件的二元组，再加上 nums[i] 就是结果三元组
+            for (ArrayList<Integer> tuple : tuples) {
+                tuple.add(0, nums[i]);
+                ans.add(tuple);
+            }
+            // 跳过第一个数字重复的情况，否则会出现重复结果
+            while (i < nums.length - 1 && nums[i] == nums[i + 1])
+                i++;
+        }
+        return ans;
+    }
+
+    public ArrayList<ArrayList<Integer>> fourSum(int[] nums, int target) {
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; i++) {
+            ArrayList<ArrayList<Integer>> tuples = threeSum(nums, i + 1, target - nums[i]);
+            for (ArrayList<Integer> tuple : tuples) {
+                tuple.add(0, nums[i]);
+                ans.add(tuple);
+            }
+            while (i < nums.length - 1 && nums[i] == nums[i + 1]) i++;
         }
         return ans;
     }
