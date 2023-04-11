@@ -1,6 +1,5 @@
-package nowcoder.hashmap;
+package nowcoder.hashmap_twopointers;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class BM50_TwoSum {

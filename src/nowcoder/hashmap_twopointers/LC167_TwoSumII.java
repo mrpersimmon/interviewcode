@@ -1,4 +1,4 @@
-package nowcoder.hashmap;
+package nowcoder.hashmap_twopointers;
 // https://leetcode.cn/problems/two-sum-ii-input-array-is-sorted/
 public class LC167_TwoSumII {
     //题目要求：

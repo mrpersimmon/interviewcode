@@ -1,4 +1,4 @@
-package nowcoder.hashmap;
+package nowcoder.hashmap_twopointers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
