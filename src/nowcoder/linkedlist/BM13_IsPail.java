@@ -39,4 +39,71 @@ public class BM13_IsPail {
         }
         return pre;
     }
+
+
+
+
+    // ----- ------------
+    public static boolean isPail_1 (ListNode head) {
+        // write code here
+        if (head == null)
+            return true;
+
+        // find mid
+        ListNode left = head;
+
+        ListNode fast = head, slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        // 反转右半段的链表
+        ListNode right = reverse_1(slow);
+        ListNode rightPivot = right; // 用于复原
+
+        boolean ans = true;
+        while(left != null && right != null) {
+            if (left.val != right.val) {
+                ans = false;
+            }
+            left = left.next;
+            right = right.next;
+        }
+        reverse_1(rightPivot); // 恢复后半段链表
+        return ans;
+    }
+
+
+
+    static ListNode reverse_1(ListNode head) {
+        if (head == null)
+            return head;
+        ListNode pre = null, cur = head, nxt = head;
+        while (cur != null) {
+            nxt = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = nxt;
+        }
+        return pre;
+    }
+
+
+    public static void main(String[] args) {
+        ListNode a = new ListNode(1);
+        a.next = new ListNode(2);
+        a.next.next = new ListNode(2);
+        a.next.next.next = new ListNode(1);
+        ListNode p = a;
+        while (p != null) {
+            System.out.print(p.val + " ");
+            p = p.next;
+        }
+        System.out.println(isPail_1(a));
+        p = a;
+        while (p != null) {
+            System.out.print(p.val + " ");
+            p = p.next;
+        }
+    }
 }
