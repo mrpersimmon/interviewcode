@@ -2,7 +2,7 @@ package nowcoder.trie;
 
 import java.util.List;
 
-public class Template_Trie {
+public class Template_Trie_no {
     // TrieMap 和 TrieSet
     // TrieMap<V> 的键必须是字符串类型，值的类型 V 可以随意
 
@@ -46,6 +46,7 @@ class TrieMap<V> {
 
     // 在 Map 中添加 key
     public void put(String key, V val) {
+
     }
 
     /***** 删 *****/
@@ -80,29 +81,54 @@ class TrieMap<V> {
 
     // 在 Map 的所有键中搜索 query 的最短前缀
     // shortestPrefixOf("themxyz") -> "the"
-    public String shortestPrefixOf(String query);
+    public String shortestPrefixOf(String query) {
+        TrieNode<V> p = root;
+        // 从节点 node 开始搜索 key
+        for (int i = 0; i < query.length(); i++) {
+            if (p == null) {
+                // 无法向下搜索
+                return "";
+            }
+            if (p.val != null) {
+                // 找到一个键是 query 的前缀
+                return query.substring(0, i);
+            }
+            // 向下搜索
+            char c = query.charAt(i);
+            p = p.children[c];
+        }
 
-    // 在 Map 的所有键中搜索 query 的最长前缀
-    // longestPrefixOf("themxyz") -> "them"
-    public String longestPrefixOf(String query);
+        if (p != null && p.val != null) {
+            // 如果 query 本身就是一个键
+            return query;
+        }
+        return "";
+    }
 
-    // 搜索所有前缀为 prefix 的键
-    // keysWithPrefix("th") -> ["that", "the", "them"]
-    public List<String> keysWithPrefix(String prefix);
-
-    // 判断是否存在前缀为 prefix 的键
-    // hasKeyWithPrefix("tha") -> true
-    // hasKeyWithPrefix("apple") -> false
-    public boolean hasKeyWithPrefix(String prefix);
-
-    // 通配符 . 匹配任意字符，搜索所有匹配的键
-    // keysWithPattern("t.a.") -> ["team", "that"]
-    public List<String> keysWithPattern(String pattern);
-
-    // 通配符 . 匹配任意字符，判断是否存在匹配的键
-    // hasKeyWithPattern(".ip") -> true
-    // hasKeyWithPattern(".i") -> false
-    public boolean hasKeyWithPattern(String pattern);
+//    // 在 Map 的所有键中搜索 query 的最长前缀
+//    // longestPrefixOf("themxyz") -> "them"
+//    public String longestPrefixOf(String query);
+//
+//    // 搜索所有前缀为 prefix 的键
+//    // keysWithPrefix("th") -> ["that", "the", "them"]
+//    public List<String> keysWithPrefix(String prefix);
+//
+//    // 判断是否存在前缀为 prefix 的键
+//    // hasKeyWithPrefix("tha") -> true
+//    // hasKeyWithPrefix("apple") -> false
+//    public boolean hasKeyWithPrefix(String prefix) {
+//        // 只要能找到 prefix 对应的节点，就是存在前缀
+//        return getNode(root, prefix) != null;
+//    }
+//
+//    // 通配符 . 匹配任意字符，搜索所有匹配的键
+//    // keysWithPattern("t.a.") -> ["team", "that"]
+//    public List<String> keysWithPattern(String pattern);
+//
+//    // 通配符 . 匹配任意字符，判断是否存在匹配的键
+//    // hasKeyWithPattern(".ip") -> true
+//    // hasKeyWithPattern(".i") -> false
+//    public boolean hasKeyWithPattern(String pattern);
 
     // 返回 Map 中键值对的数量
     public int size() {
