@@ -19,12 +19,15 @@ public class Template_Trie {
 //        for (String s : th) {
 //            System.out.print(s + " ");
 //        }
-        List<String> pattern = map.keysWithPattern("t.a.");
-        for (String s : pattern) {
-            System.out.println(s);
-        }
-        System.out.println(map.hasKeyWithPattern(".ip"));
-        System.out.println(map.hasKeyWithPattern(".i"));
+//        List<String> pattern = map.keysWithPattern("t.a.");
+//        for (String s : pattern) {
+//            System.out.println(s);
+//        }
+//        System.out.println(map.hasKeyWithPattern(".ip"));
+//        System.out.println(map.hasKeyWithPattern(".i"));
+
+//        map.remove("that");
+//        System.out.println(map.get("that"));
     }
 }
 
@@ -86,6 +89,28 @@ class TrieMap<V> {
         node.end++; // 最终节点 end + 1
     }
 
+    /*********** 删 ************/
+
+    public void remove(String key) {
+        if (!containsKey(key)) {
+            return;
+        }
+        TrieNode<V> node = root;
+        node.pass--;
+        int path = 0;
+        for (int i = 0; i < key.length(); i++) {
+            path = key.charAt(i);
+            if (--node.nexts.get(path).pass == 0) {
+                node.nexts.remove(path);
+                return;
+            }
+            node = node.nexts.get(path);
+        }
+        node.end--;
+    }
+
+
+
     /*********** 查 ************/
 
     // 搜索 key，如果存在返回「对应节点」，否则返回 null
@@ -126,7 +151,9 @@ class TrieMap<V> {
     }
 
     // 在所有「键」中寻找 query 的最短前缀
-    public String shortestPrefixOf(TrieNode<V> node, String query) {
+    public String shortestPrefixOf(String query) {
+
+        TrieNode<V> node = root;
         int path = 0;
         for (int i = 0; i < query.length(); i++) {
             path = query.charAt(i);
@@ -148,10 +175,10 @@ class TrieMap<V> {
     }
 
     // 在所有「键」中寻找 query 的最长前缀
-    public String longestPrefixOf(TrieNode<V> node, String query) {
+    public String longestPrefixOf(String query) {
         // 记录前缀的最大长度
         int max_len = 0;
-
+        TrieNode<V> node = root;
         int path = 0;
         for (int i = 0; i < query.length(); i++) {
             path = query.charAt(i);
@@ -283,4 +310,79 @@ class TrieMap<V> {
         return false;
     }
 
+    public int countWordsEqualTo(String key) {
+        if (key == null)
+            return 0;
+        TrieNode<V> node = root;
+        int path = 0;
+        for (int i = 0; i < key.length(); i++) {
+            path = key.charAt(i);
+            if (!node.nexts.containsKey(path)) {
+                return 0;
+            }
+            node = node.nexts.get(path);
+        }
+        return node.end;
+    }
+
+    public int countWordsStartingWith(String prefix) {
+        if (prefix == null)
+            return 0;
+        TrieNode<V> node = root;
+        int path = 0;
+        for (int i = 0; i < prefix.length(); i++) {
+            path = prefix.charAt(i);
+            if (!node.nexts.containsKey(path)) {
+                return 0;
+            }
+            node = node.nexts.get(path);
+        }
+        return node.pass;
+    }
+}
+
+class TrieSet<V> {
+    // 底层用一个 TrieMap，键就是 TrieSet，值仅仅起到占位的作用
+    // 值的类型可以随便设置，参考 Java 标准库设置为 Object
+    private final TrieMap<Object> map = new TrieMap<>();
+
+    public void add(String key) {
+        map.put(key, new Object());
+    }
+
+    public void remove(String key) {
+        map.remove(key);
+    }
+
+    public boolean contains(String key) {
+        return map.containsKey(key);
+    }
+
+    public String shortestPrefixOf(String query) {
+        return map.shortestPrefixOf(query);
+    }
+
+    public String longestPrefixOf(String query) {
+        return map.longestPrefixOf(query);
+    }
+
+    public List<String> keysWithPrefix(String prefix) {
+        return map.keysWithPrefix(prefix);
+    }
+
+    public boolean hasKeyWithPrefix(String prefix) {
+        return map.hasKeyWithPrefix(prefix);
+    }
+
+    public List<String> keysWithPattern(String pattern) {
+        return map.keysWithPattern(pattern);
+    }
+
+    public boolean hasKeyWithPattern(String pattern) {
+        return map.hasKeyWithPattern(pattern);
+    }
+
+    public int size() {
+        return map.size();
+    }
 }
