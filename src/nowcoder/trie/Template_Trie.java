@@ -16,8 +16,8 @@ public class Template_Trie {
         map.put("that", 6);
 //        System.out.println(map.countWordsEqualTo("them"));
 //        System.out.println(map.countWordsStartingWith("th"));
-        System.out.println(map.shortestPrefixOf("themxyc"));
-        System.out.println(map.longestPrefixOf("themxyz"));
+//        System.out.println(map.shortestPrefixOf("themxyc"));
+//        System.out.println(map.longestPrefixOf("themxyz"));
 //        List<String> th = map.keysWithPrefix("t");
 //        for (String s : th) {
 //            System.out.print(s + " ");
@@ -30,7 +30,7 @@ public class Template_Trie {
 //        System.out.println(map.hasKeyWithPattern(".i"));
 
 //        map.remove("that");
-//        System.out.println(map.get("that"));
+        System.out.println(map.get("the"));
     }
 }
 
@@ -114,15 +114,20 @@ class TrieMap<V> {
 
     // 从 node 节点搜索 key，如果存在返回「对应节点」，否则返回 null
     private TrieNode<V> getNode(TrieNode<V> node, String key) {
-        TrieNode<V> p = node;
+        TrieNode<V> p = node; // 从节点 node 开始搜索 key
         for (int i = 0; i < key.length(); i++) {
-            char path = key.charAt(i); // 确定路径
-            if (!p.children.containsKey(path)){ // 路径下方节点不存在
-                // 无法向下搜索
-                return null;
+//            方法 1：
+//            char path = key.charAt(i); // 确定路径
+//            if (!p.children.containsKey(path)){ // 路径下方节点不存在
+//                // 无法向下搜索
+//                return null;
+//            }
+//            p = p.children.get(path);// 向下搜索
+            if (p == null) {
+                return null; // 无法向下搜索
             }
-            // 向下搜索
-            p = p.children.get(path);
+            char path = key.charAt(i); // 确定路径
+            p = p.children.get(path);// 向下搜索
         }
         return p;
     }
