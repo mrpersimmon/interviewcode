@@ -112,19 +112,19 @@ class TrieMap<V> {
 
     /*********** 查 ************/
 
-    // 搜索 key，如果存在返回「对应节点」，否则返回 null
+    // 从 node 节点搜索 key，如果存在返回「对应节点」，否则返回 null
     private TrieNode<V> getNode(TrieNode<V> node, String key) {
-        // 从根节点开始搜索 key
+        TrieNode<V> p = node;
         for (int i = 0; i < key.length(); i++) {
             char path = key.charAt(i); // 确定路径
-            if (!node.children.containsKey(path)){ // 路径下方节点不存在
+            if (!p.children.containsKey(path)){ // 路径下方节点不存在
                 // 无法向下搜索
                 return null;
             }
             // 向下搜索
-            node = node.children.get(path);
+            p = p.children.get(path);
         }
-        return node;
+        return p;
     }
 
     // 搜索 key 对应的值(val)，不存在则返回 null
