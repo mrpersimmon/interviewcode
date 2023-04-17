@@ -43,7 +43,7 @@ class TrieMap<V> {
         HashMap<Character, TrieNode<V>> children; // <字符路径(字符 ASCII 码值)，下级节点>
 
         public TrieNode() {
-            V val = null;
+            val = null;
             pass = 0;
             end = 0;
             children = new HashMap<>();
@@ -123,6 +123,7 @@ class TrieMap<V> {
 //                return null;
 //            }
 //            p = p.children.get(path);// 向下搜索
+//            方法 2：
             if (p == null) {
                 return null; // 无法向下搜索
             }
