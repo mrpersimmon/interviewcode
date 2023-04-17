@@ -8,7 +8,6 @@ public class Template_Trie {
     public static void main(String[] args) {
         TrieMap<Integer> map = new TrieMap<>();
         map.put("them", 1);
-//        map.put("them", 1);
         map.put("zip", 2);
         map.put("team",3);
         map.put("the", 4);
@@ -18,19 +17,19 @@ public class Template_Trie {
 //        System.out.println(map.countWordsStartingWith("th"));
 //        System.out.println(map.shortestPrefixOf("themxyc"));
 //        System.out.println(map.longestPrefixOf("themxyz"));
-        List<String> th = map.keysWithPrefix("th");
-        for (String s : th) {
-            System.out.print(s + " ");
-        }
+//        List<String> th = map.keysWithPrefix("th");
+//        for (String s : th) {
+//            System.out.print(s + " ");
+//        }
 //        List<String> pattern = map.keysWithPattern("t.a.");
 //        for (String s : pattern) {
 //            System.out.println(s);
 //        }
-//        System.out.println(map.hasKeyWithPattern(".ip"));
-//        System.out.println(map.hasKeyWithPattern(".i"));
+        System.out.println(map.hasKeyWithPattern(".ip"));
+        System.out.println(map.hasKeyWithPattern(".i"));
 
 //        map.remove("that");
-        System.out.println(map.get("the"));
+//        System.out.println(map.get("the"));
     }
 }
 
@@ -282,16 +281,16 @@ class TrieMap<V> {
 
     // ----------------------------------------------------
 
-    // 通配符 . 匹配任意字符，判断是否存在前缀为 prefix 的键
+    // 通配符 . 匹配任意字符，判断是否存在匹配的键
     // hasKeyWithPattern(".ip") -> true
     // hasKeyWithPattern(".i") -> false
     public boolean hasKeyWithPattern(String pattern) {
         // 从 root 节点开始匹配 pattern[0..]
-        return hasKeyWithPattern(root, pattern, 0);
+        return traverse(root, pattern, 0);
     }
 
     // 从 node 节点开始匹配 pattern[i..]，返回是否成功匹配
-    private boolean hasKeyWithPattern(TrieNode<V> node, String pattern, int i) {
+    private boolean traverse(TrieNode<V> node, String pattern, int i) {
         if (node == null) {
             // 树枝不存在，即匹配失败
             return false;
@@ -304,11 +303,12 @@ class TrieMap<V> {
         // 没有遇到通配符
         if (c != '.') {
             // 从 node.children.get(c) 节点开始匹配 pattern[i+1..]
-            return hasKeyWithPattern(node.children.get(c), pattern, i + 1);
+            return traverse(node.children.get(c), pattern, i + 1);
         }
         // 遇到通配符
-        for (int j : node.children.keySet()) {
-            if (hasKeyWithPattern(node.children.get(j), pattern, i + 1)) {
+        for (char j : node.children.keySet()) {
+            // pattern[j] 可以变化成任意字符，尝试所有可能，只要遇到一个匹配成功就返回
+            if (traverse(node.children.get(j), pattern, i + 1)) {
                 return true;
             }
         }
