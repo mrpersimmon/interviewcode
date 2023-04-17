@@ -162,25 +162,22 @@ class TrieMap<V> {
 
     // 在所有「键」中寻找 query 的最短前缀
     // shortestPrefixOf("themxyz") -> "the"
+    // 在第一次遇到存有 val 的节点的时候返回即可
+    // for 循环之后还要额外检查最后一个节点。
     public String shortestPrefixOf(String query) {
-
-        TrieNode<V> node = root;
+        TrieNode<V> p = root;
         for (int i = 0; i < query.length(); i++) {
-
-            if (node == null) {
-                // 无法向下搜索
-                return "";
+            if (p == null) {
+                return ""; // 无法向下搜索
             }
-            if (node.val != null) {
-                // 找到一个『键』是 query 的前缀
-                return query.substring(0, i);
+            if (p.val != null) {
+                return query.substring(0, i); // 找到一个『键』是 query 的前缀
             }
             char path = query.charAt(i);
-            node = node.children.get(path);
+            p = p.children.get(path);
         }
-        if (node != null && node.val != null) {
-            // 如果 query 本身就是一个键
-            return query;
+        if (p != null && p.val != null) {
+            return query; // 如果 query 本身就是一个键
         }
         return "";
     }
