@@ -18,10 +18,10 @@ public class Template_Trie {
 //        System.out.println(map.countWordsStartingWith("th"));
 //        System.out.println(map.shortestPrefixOf("themxyc"));
 //        System.out.println(map.longestPrefixOf("themxyz"));
-//        List<String> th = map.keysWithPrefix("t");
-//        for (String s : th) {
-//            System.out.print(s + " ");
-//        }
+        List<String> th = map.keysWithPrefix("th");
+        for (String s : th) {
+            System.out.print(s + " ");
+        }
 //        List<String> pattern = map.keysWithPattern("t.a.");
 //        for (String s : pattern) {
 //            System.out.println(s);
@@ -160,7 +160,7 @@ class TrieMap<V> {
         return getNode(root, prefix) != null;
     }
 
-    // 在所有「键」中寻找 query 的最短前缀
+    // 在 Map 的所有键中搜索 query 的最短前缀
     // shortestPrefixOf("themxyz") -> "the"
     // 在第一次遇到存有 val 的节点的时候返回即可
     // for 循环之后还要额外检查最后一个节点。
@@ -182,7 +182,8 @@ class TrieMap<V> {
         return "";
     }
 
-    // 在所有「键」中寻找 query 的最长前缀
+    // 在 Map 的所有键中搜索 query 的最长前缀
+    // longestPrefixOf("themxyz") -> "them"
     public String longestPrefixOf(String query) {
         int maxLen = 0; // 记录前缀的最大长度
         TrieNode<V> p = root;
@@ -202,20 +203,18 @@ class TrieMap<V> {
         return query.substring(0, maxLen);
     }
 
-
-
     // ------------- 搜索所有前缀为 prefix 的键 -------------
     // keysWithPrefix("th") -> ["that", "the", "them"]
+    // 先利用 getNode 在 Trie 树中找到 prefix 对应的节点 x
+    // 使用多叉树的遍历算法，遍历以 x 为根的这棵 Trie 树，找到所有的键值对
     public List<String> keysWithPrefix(String prefix) {
-        // 先利用 getNode 在 Trie 树中找到 prefix 对应的节点 x
-        // 使用多叉树的遍历算法，遍历以 x 为根的这棵 Trie 树，找到所有的键值对
         List<String> res = new LinkedList<>();
         // 找到匹配 prefix 在 Trie 树中的那个节点
-        TrieNode<V> x = getNode(root, prefix);
-        if (x == null) // 不存在 prefix
+        TrieNode<V> p = getNode(root, prefix);
+        if (p == null) // 不存在 prefix
             return res;
-        // DFS 遍历以 x 为根的这棵 Trie 树
-        traverse(x, new StringBuffer(prefix), res);
+        // 回溯遍历以 x 为根的这棵 Trie 树
+        traverse(p, new StringBuffer(prefix), res);
         return res;
     }
 
@@ -230,6 +229,7 @@ class TrieMap<V> {
             res.add(path.toString());
         }
         // 回溯算法遍历框架
+        // c 选择，node.children.keySet() 选择列表
         for (char c : node.children.keySet()) {
             // 做选择
             path.append(c);
