@@ -184,26 +184,22 @@ class TrieMap<V> {
 
     // 在所有「键」中寻找 query 的最长前缀
     public String longestPrefixOf(String query) {
-        // 记录前缀的最大长度
-        int max_len = 0;
-        TrieNode<V> node = root;
+        int maxLen = 0; // 记录前缀的最大长度
+        TrieNode<V> p = root;
         for (int i = 0; i < query.length(); i++) {
-
-            if (node == null) {
-                // 无法向下搜索
-                break;
+            if (p == null) {
+                break; // 无法向下搜索
             }
-            if (node.val != null) {
-                max_len = i; // 找到一个键是 query 的前缀，更新前缀的最大长度
+            if (p.val != null) {
+                maxLen = i; // 找到一个键是 query 的前缀，更新前缀的最大长度
             }
-            // 向下搜索
-            char path = query.charAt(i);
-            node = node.children.get(path);
+            char path = query.charAt(i); // 向下搜索
+            p = p.children.get(path);
         }
-        if (node != null && node.val != null) {
+        if (p != null && p.val != null) {
             return query; // 如果 query 本身就是一个键，那么这就是最长前缀
         }
-        return query.substring(0, max_len);
+        return query.substring(0, maxLen);
     }
 
 
