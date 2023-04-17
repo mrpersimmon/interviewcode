@@ -268,15 +268,15 @@ class TrieMap<V> {
             // pattern[i] 是通配符，可以变化成任意字符
             // 多叉树（回溯算法）遍历框架
             for (char j : node.children.keySet()) {
-                path.append(j);
+                path.append(j); // 做选择
                 traverse(node.children.get(j), path, pattern, i + 1, res);
-                path.deleteCharAt(path.length() - 1);
+                path.deleteCharAt(path.length() - 1); // 撤销选择
             }
         } else {
             // pattern[i] 是普通字符 c
-            path.append(c);
+            path.append(c); // 做选择
             traverse(node.children.get(c), path, pattern, i + 1, res);
-            path.deleteCharAt(path.length() - 1);
+            path.deleteCharAt(path.length() - 1); // 撤销选择
         }
     }
 
