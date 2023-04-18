@@ -94,6 +94,7 @@ class TrieMap<V> {
         if (!containsKey(key)) {
             return;
         }
+        size--;
         TrieNode<V> node = root;
         node.pass--;
         for (int i = 0; i < key.length(); i++) {
