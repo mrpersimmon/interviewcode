@@ -77,19 +77,19 @@ class TrieMap<V> {
         node.pass++;
         for (int i = 0; i < key.length(); i++) { // 遍历字符串
             char path = key.charAt(i); // 确定字符路径
-            if (!node.children.containsKey(path)) { // 如果路径下面的节点是空的
+            if (!node.children.containsKey(path)) { // 如果路径下方节点不存在
                 node.children.put(path, new TrieNode<>()); // 新建节点
             }
-            node = node.children.get(path); // node 向下移动
-            node.pass++; // 经过的节点 pass + 1
+            node = node.children.get(path); // 节点存在，node 向下移动
+            node.pass++; // 经过的节点 pass++
         }
         // key 的路径已插入完成，将值 val 存入节点
         node.val = val;
-        node.end++; // 最终节点 end + 1
+        node.end++; // 最后的节点 end++
     }
 
     /*********** 删 ************/
-
+    // 在 map 中删除 key
     public void remove(String key) {
         if (!containsKey(key)) {
             return;
@@ -319,6 +319,9 @@ class TrieMap<V> {
 
     // 返回前缀树中字符串 key 的实例个数
     public int countWordsEqualTo(String key) {
+        if (!containsKey(key)) {
+            return 0;
+        }
         if (key == null)
             return 0;
         TrieNode<V> node = root;
