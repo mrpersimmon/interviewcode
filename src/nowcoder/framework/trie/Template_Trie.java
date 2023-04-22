@@ -1,4 +1,4 @@
-package nowcoder.trie;
+package nowcoder.framework.trie;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,11 +31,11 @@ public class Template_Trie {
 //        map.remove("that");
 //        System.out.println(map.get("the"));
     }
+
 }
 
-
 class TrieMap<V> {
-    private static class TrieNode<V> {
+    private class TrieNode<V> {
         V val;
         int pass; // 表示有多少个单词共用这个节点
         int end; // 表示有多少个单词以这个节点结尾
@@ -67,11 +67,11 @@ class TrieMap<V> {
 
     // 向 map 中添加或修改键值对
     public void put(String key, V val) {
-        if (!containsKey(key)) {
-            size++;
-        }
         if (key == null) {
             return;
+        }
+        if (!containsKey(key)) {
+            size++;
         }
         TrieNode<V> node = root; // 从根节点开始
         node.pass++;
@@ -393,3 +393,4 @@ class TrieSet<V> {
         return map.size();
     }
 }
+
