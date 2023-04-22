@@ -95,17 +95,17 @@ class TrieMap<V> {
             return;
         }
         size--;
-        TrieNode<V> node = root;
+        TrieNode<V> node = root; // 从根节点开始
         node.pass--;
         for (int i = 0; i < key.length(); i++) {
-            char path = key.charAt(i);
-            if (--node.children.get(path).pass == 0) {
-                node.children.remove(path);
-                return;
+            char path = key.charAt(i); // 确定字符路径
+            if (--node.children.get(path).pass == 0) { // 如果路径下面的节点 pass - 1 == 0
+                node.children.remove(path); // 移除该节点，后续节点会被 gc 掉
+                return; // 直接返回
             }
-            node = node.children.get(path);
+            node = node.children.get(path); // node 向下移动
         }
-        node.end--;
+        node.end--; // 最终节点 end - 1
     }
 
 
