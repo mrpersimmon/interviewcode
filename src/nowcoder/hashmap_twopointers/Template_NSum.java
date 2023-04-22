@@ -174,6 +174,20 @@ public class Template_NSum {
         }
         return ans;
     }
+    /*
+    * 我对咱们部门的工作内容，就是研发效能领域平台和工具的建设十分感兴趣，
+    * 因为在之前的实习中，我也是参与公司的流水线管理平台相关工具的开发，
+    * 比如简历中的历史镜像备份工具、服务资源告警工具、内存资源缩减工具那些。
+    * 美团的工程基础设施在国内处于一流顶尖水平，
+    * 所以我想在实习中去学习更优秀的研发理念和工程实践，
+    * 也希望自己能够在实习中快速成长起来参与部门主要工具的开发，贡献自己的力量，实现双赢。
+    * */
+
+    public static void main(String[] args) {
+        StringBuffer ans = new StringBuffer("ws");
+        ans.insert(0, "a");
+        System.out.println(ans.toString());
+    }
 }
 
 

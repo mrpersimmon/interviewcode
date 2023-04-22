@@ -5,7 +5,6 @@ public class LC167_TwoSumII {
     // 有序数组；
     // 空间复杂度要求为 O(1)，也就是不能用 HashMap；
     // index 从 1 开始
-
     public int[] twoSum(int[] nums, int target) {
         // 左右指针相向而行
         int left = 0, right = nums.length - 1;
