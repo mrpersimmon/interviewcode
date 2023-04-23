@@ -74,7 +74,7 @@ class TrieMap<V> {
             size++;
         }
         TrieNode<V> node = root; // 从根节点开始
-        node.pass++;
+        node.pass++; // 根节点 pass++
         for (int i = 0; i < key.length(); i++) { // 遍历字符串
             char path = key.charAt(i); // 确定字符路径
             if (!node.children.containsKey(path)) { // 如果路径下方节点不存在
@@ -91,12 +91,15 @@ class TrieMap<V> {
     /*********** 删 ************/
     // 在 map 中删除 key
     public void remove(String key) {
-        if (!containsKey(key)) {
+        if (key == null) {
             return;
         }
-        size--;
+        if (!containsKey(key)) { // 判断 key 是否在 Trie 树中
+            return;
+        }
+        size--; // 键值对数量 - 1
         TrieNode<V> node = root; // 从根节点开始
-        node.pass--;
+        node.pass--; // 根节点 pass - 1
         for (int i = 0; i < key.length(); i++) {
             char path = key.charAt(i); // 确定字符路径
             if (--node.children.get(path).pass == 0) { // 如果路径下面的节点 pass - 1 == 0
