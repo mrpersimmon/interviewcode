@@ -339,7 +339,7 @@ class TrieMap<V> {
         return node.end; // 返回 end 值
     }
 
-    // 返回前缀树中以 prefix 为前缀的字符串个数
+    // 查询 TrieMap 中以 prefix 为前缀的 key 的个数
     public int countWordsStartingWith(String prefix) {
         if (prefix == null)
             return 0;
@@ -351,7 +351,7 @@ class TrieMap<V> {
             }
             node = node.children.get(path);
         }
-        return node.pass;
+        return node.pass; // 返回 pass 值
     }
 }
 
@@ -398,6 +398,14 @@ class TrieSet<V> {
 
     public int size() {
         return map.size();
+    }
+
+    public int countWordEqualTo(String key) {
+        return map.countWordsEqualTo(key);
+    }
+
+    public int countWordsStartingWith(String prefix) {
+        return map.countWordsStartingWith(prefix);
     }
 }
 
