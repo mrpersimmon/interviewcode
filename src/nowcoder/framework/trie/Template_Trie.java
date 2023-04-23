@@ -320,22 +320,23 @@ class TrieMap<V> {
         return false;
     }
 
-    // 返回前缀树中字符串 key 的实例个数
+    // 查询 TrieMap 中指定 key 出现的次数
     public int countWordsEqualTo(String key) {
+        if (key == null) {
+            return 0;
+        }
         if (!containsKey(key)) {
             return 0;
         }
-        if (key == null)
-            return 0;
-        TrieNode<V> node = root;
-        for (int i = 0; i < key.length(); i++) {
-            char path = key.charAt(i);
-            if (!node.children.containsKey(path)) {
+        TrieNode<V> node = root; // 从根节点开始
+        for (int i = 0; i < key.length(); i++) { // 遍历字符串
+            char path = key.charAt(i); // 确定字符路径
+            if (!node.children.containsKey(path)) { // 如果路径下方不存在节点，返回 0
                 return 0;
             }
-            node = node.children.get(path);
+            node = node.children.get(path); // 节点存在，向下移动
         }
-        return node.end;
+        return node.end; // 返回 end 值
     }
 
     // 返回前缀树中以 prefix 为前缀的字符串个数
