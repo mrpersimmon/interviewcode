@@ -1,41 +1,66 @@
 package nowcoder.framework.trie;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Template_Trie {
+//    public static void main(String[] args) {
+//        TrieMap<Integer> map = new TrieMap<>();
+//        map.put("them", 1);
+//        map.put("zip", 2);
+//        map.put("team",3);
+//        map.put("the", 4);
+//        map.put("app", 5);
+//        map.put("that", 6);
+////        System.out.println(map.countWordsEqualTo("them"));
+////        System.out.println(map.countWordsStartingWith("th"));
+////        System.out.println(map.shortestPrefixOf("themxyc"));
+////        System.out.println(map.longestPrefixOf("themxyz"));
+////        List<String> th = map.keysWithPrefix("th");
+////        for (String s : th) {
+////            System.out.print(s + " ");
+////        }
+////        List<String> pattern = map.keysWithPattern("t.a.");
+////        for (String s : pattern) {
+////            System.out.println(s);
+////        }
+//        System.out.println(map.hasKeyWithPattern(".ip"));
+//        System.out.println(map.hasKeyWithPattern(".i"));
+//
+////        map.remove("that");
+////        System.out.println(map.get("the"));
+//    }
     public static void main(String[] args) {
-        TrieMap<Integer> map = new TrieMap<>();
-        map.put("them", 1);
-        map.put("zip", 2);
-        map.put("team",3);
-        map.put("the", 4);
-        map.put("app", 5);
-        map.put("that", 6);
-//        System.out.println(map.countWordsEqualTo("them"));
-//        System.out.println(map.countWordsStartingWith("th"));
-//        System.out.println(map.shortestPrefixOf("themxyc"));
-//        System.out.println(map.longestPrefixOf("themxyz"));
-//        List<String> th = map.keysWithPrefix("th");
-//        for (String s : th) {
-//            System.out.print(s + " ");
-//        }
-//        List<String> pattern = map.keysWithPattern("t.a.");
-//        for (String s : pattern) {
-//            System.out.println(s);
-//        }
-        System.out.println(map.hasKeyWithPattern(".ip"));
-        System.out.println(map.hasKeyWithPattern(".i"));
+        String[][] operators = {{"1", "qwer"}, {"1","qwe"}, {"3", "qwer"}, {"4","q"}, {"2","qwer"}, {"3","qwer"}, {"4","q"}};
+        String[] ans = trieU(operators);
+        for (String a : ans) {
+            System.out.println(a);
+        }
 
-//        map.remove("that");
-//        System.out.println(map.get("the"));
     }
-
+    public static String[] trieU (String[][] operators) {
+        // write code here
+        List<String> ans = new ArrayList<>();
+        Trie trie = new Trie();
+        for (String[] op : operators) {
+            if (op[0].equals("1")) {
+                trie.insert(op[1]);
+            } else if (op[0].equals("2")) {
+                trie.delete(op[1]);
+            } else if (op[0].equals("3")) {
+                ans.add(trie.search(op[1]) ? "YES" : "NO");
+            } else if (op[0].equals("4")) {
+                ans.add(String.valueOf(trie.prefixNumber(op[1])));
+            }
+        }
+        return ans.toArray(new String[0]);
+    }
 }
 
 class TrieMap<V> {
-    private class TrieNode<V> {
+    private static class TrieNode<V> {
         V val;
         int pass; // 表示有多少个单词共用这个节点
         int end; // 表示有多少个单词以这个节点结尾
@@ -406,6 +431,27 @@ class TrieSet<V> {
 
     public int countWordsStartingWith(String prefix) {
         return map.countWordsStartingWith(prefix);
+    }
+}
+
+
+class Trie {
+    TrieSet set = new TrieSet();
+
+    public void insert(String word) {
+        set.add(word);
+    }
+
+    public void delete(String word) {
+        set.remove(word);
+    }
+
+    public boolean search(String word) {
+        return set.contains(word);
+    }
+
+    public int prefixNumber(String pre) {
+        return set.countWordsStartingWith(pre);
     }
 }
 
