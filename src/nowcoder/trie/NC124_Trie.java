@@ -31,7 +31,7 @@ public class NC124_Trie {
 
 
 class Trie {
-    private final TrieMap<Object> trieMap = new TrieMap<>();
+    private final TrieMap_nc124<Object> trieMap = new TrieMap_nc124<>();
 
     public void insert(String word) {
         trieMap.put(word, new Object());
@@ -50,7 +50,7 @@ class Trie {
     }
 }
 
-class TrieMap<V> {
+class TrieMap_nc124<V> {
     private static class TrieNode<V> {
         private V val;
         private int pass;
@@ -68,7 +68,7 @@ class TrieMap<V> {
 
     private TrieNode<V> root = null;
 
-    public TrieMap() {
+    public TrieMap_nc124() {
         root = new TrieNode<>();
     }
 
