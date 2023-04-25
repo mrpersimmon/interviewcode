@@ -10,7 +10,6 @@ public class Test01 {
             pers2[i] = pers[i];
         }
         pers2[pers2.length - 1] = new Person();
-        return;
     }
 }
 
