@@ -48,5 +48,15 @@ public class TestInputStream {
         }
     }
 
+    @Test
+    public void testObjectInputStream() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("object.data"))) {
+//            MyClass object = (MyClass) ois.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
 
