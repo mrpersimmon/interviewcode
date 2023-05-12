@@ -1,4 +1,4 @@
-package nowcoder.searchsort;
+package nowcoder.framework.binarysearch;
 
 // BM17 二分查找I https://www.nowcoder.com/practice/d3df40bd23594118b57554129cadf47b、
 // LC34 在排序数组中查找元素的第一个和最后一个位置 https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/
@@ -6,7 +6,7 @@ package nowcoder.searchsort;
 public class Template_BinarySearch {
 
     // 寻找一个数，最基本的二分搜索
-    int binarySearch(int[] nums, int target) {
+    static int binarySearch(int[] nums, int target) {
         int left = 0, right = nums.length - 1;
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
@@ -22,7 +22,7 @@ public class Template_BinarySearch {
     }
 
     // 寻找左侧边界的二分搜索，升序数组中存在多个等于 target 的值，找到最左侧的
-    int leftBound(int[] nums, int target) {
+    static int leftBound(int[] nums, int target) {
         int left = 0, right = nums.length - 1;
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
@@ -43,7 +43,7 @@ public class Template_BinarySearch {
     }
 
     // 寻找右侧边界的二分搜索，升序数组中存在多个等于 target 的值，找到最右侧的
-    int rightBound(int[] nums, int target) {
+    static int rightBound(int[] nums, int target) {
         int left = 0, right = nums.length - 1;
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
@@ -59,6 +59,11 @@ public class Template_BinarySearch {
         if (right < 0 || nums[right] != target)
             return -1;
         return right;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 1, 1, 2, 3};
+        System.out.println(leftBound(nums, 0));
     }
 
 }
